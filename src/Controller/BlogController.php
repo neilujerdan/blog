@@ -86,12 +86,13 @@
 		 *
 		 * @param string $category The slugger
 		 *
-		 * @Route("/blog/category/{category<^[a-z0-9-]+$>}",
+		 * @Route("/blog/category/{category}",
+		 *     requirements={"category"="^[a-z0-9-]+$"},
 		 *     defaults={"category" = null},
 		 *     name="show_Category")
 		 *  @return Response A response instance
 		 */
-		public function Category(string $category) : Response
+		public function showByCategory(string $category) : Response
 		{
 			if (!$category) {
 				throw $this
@@ -105,11 +106,11 @@
 			
 			$category = $this->getDoctrine()
 				->getRepository(Category::class)
-				->findOneByName($category);
+				->findOneBy(['name' => $category]);
 			
 			$articles = $this->getDoctrine()
 				->getRepository(Article::class)
-				->findByCategory($category);
+				->findBy(['category' => $category], array('id' => 'DESC'),3);
 			
 			if (!$articles) {
 				throw $this->createNotFoundException(
