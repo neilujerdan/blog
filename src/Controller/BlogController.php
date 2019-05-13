@@ -84,28 +84,28 @@
 		/**
 		 * Getting a article with a formatted slug for title
 		 *
-		 * @param string $categoryName The slugger
+		 * @param string $category The slugger
 		 *
-		 * @Route("/blog/showByCategory/{categoryName<^[a-z0-9-]+$>}",
-		 *     defaults={"categoryName" = null},
-		 *     name="blog_showByCategory")
+		 * @Route("/blog/category/{category<^[a-z0-9-]+$>}",
+		 *     defaults={"category" = null},
+		 *     name="show_Category")
 		 *  @return Response A response instance
 		 */
-		public function showByCategory(string $categoryName) : Response
+		public function Category(string $category) : Response
 		{
-			if (!$categoryName) {
+			if (!$category) {
 				throw $this
 					->createNotFoundException('No slug has been sent to find an article in article\'s table.');
 			}
 			
-			$categoryName = preg_replace(
+			$category = preg_replace(
 				'/-/',
-				' ', ucwords(trim(strip_tags($categoryName)), "-")
+				' ', ucwords(trim(strip_tags($category)), "-")
 			);
 			
 			$category = $this->getDoctrine()
 				->getRepository(Category::class)
-				->findOneByName($categoryName);
+				->findOneByName($category);
 			
 			$articles = $this->getDoctrine()
 				->getRepository(Article::class)
@@ -120,6 +120,7 @@
 			return $this->render(
 				'blog/category.html.twig',
 				[
+					'category' => $category,
 					'articles' => $articles,
 				]
 			);
