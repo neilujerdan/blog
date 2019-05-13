@@ -23,7 +23,7 @@ class ArticleRepository extends ServiceEntityRepository
 	 * @return Article[] Returns an array of Article objects
 	 */
 	
-	public function findByCategory($value)
+	public function findByCategory(object $value): array
 	{
 		return $this->createQueryBuilder('a')
 			->andWhere('a.category = :val')
