@@ -35,7 +35,19 @@ class CategoryRepository extends ServiceEntityRepository
         ;
     }
     */
-
+	
+	
+	public function findOneByName($value): ?Category
+	{
+		return $this->createQueryBuilder('c')
+			->andWhere('c.name = :val')
+			->setParameter('val', $value)
+			->getQuery()
+			->getOneOrNullResult()
+		;
+		
+	}
+	
     /*
     public function findOneBySomeField($value): ?Category
     {
