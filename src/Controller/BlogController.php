@@ -87,28 +87,18 @@
 		 *
 		 * @param string $category The slugger
 		 *
-		 * @Route("/blog/category/{category}",
-		 *     requirements={"category"="^[a-z0-9-]+$"},
-		 *     defaults={"category" = null},
+		 * @Route("/blog/category/{name}",
+		 *     requirements={"name"="^[a-z0-9-]+$"},
+		 *     defaults={"name" = null},
 		 *     name="show_Category")
 		 *  @return Response A response instance
 		 */
-		public function showByCategory(string $category) : Response
+		public function showByCategory(Category $category) : Response
 		{
 			if (!$category) {
 				throw $this
 					->createNotFoundException('No slug has been sent to find an article in article\'s table.');
 			}
-			
-			$category = preg_replace(
-				'/-/',
-				' ', ucwords(trim(strip_tags($category)), "-")
-			);
-			
-			$category = $this->getDoctrine()
-				->getRepository(Category::class)
-				->findOneBy(['name' => $category]);
-			
 			/*
 			$category = $this->getDoctrine()
 				->getRepository(Category::class)
