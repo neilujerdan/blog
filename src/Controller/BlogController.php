@@ -10,6 +10,7 @@
 	
 	use App\Entity\Article;
 	use App\Entity\Category;
+	use App\Repository\CategoryRepository;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -108,6 +109,11 @@
 				->getRepository(Category::class)
 				->findOneBy(['name' => $category]);
 			
+			/*
+			$category = $this->getDoctrine()
+				->getRepository(Category::class)
+				->findOneBy(['name' => $category]);
+			
 			$articles = $this->getDoctrine()
 				->getRepository(Article::class)
 				->findBy(['category' => $category], array('id' => 'DESC'),3);
@@ -117,12 +123,12 @@
 					'No article with '.$articles.' title, found in article\'s table.'
 				);
 			}
-			
+			*/
 			return $this->render(
 				'blog/category.html.twig',
 				[
 					'category' => $category,
-					'articles' => $articles,
+					'articles' => $category->getArticles(),
 				]
 			);
 		}
