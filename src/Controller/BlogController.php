@@ -94,10 +94,6 @@
 		 */
 		public function showByCategory(Category $category) : Response
 		{
-			if (!$category) {
-				throw $this
-					->createNotFoundException('No slug has been sent to find an article in article\'s table.');
-			}
 			/*
 			$category = $this->getDoctrine()
 				->getRepository(Category::class)
