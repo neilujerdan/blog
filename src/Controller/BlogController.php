@@ -85,11 +85,10 @@
 		/**
 		 * Getting a article with a formatted slug for title
 		 *
-		 * @param string $category The slugger
 		 *
 		 * @Route("/blog/category/{name}",
-		 *     requirements={"name"="^[a-z0-9-]+$"},
-		 *     defaults={"name" = null},
+		 *     requirements={"category"="^[a-z0-9-]+$"},
+		 *     defaults={"category" = null},
 		 *     name="show_Category")
 		 *  @return Response A response instance
 		 */
