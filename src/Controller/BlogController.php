@@ -10,10 +10,12 @@
 	
 	use App\Entity\Article;
 	use App\Entity\Category;
-	use App\Repository\CategoryRepository;
+	use App\Form\CategoryType;
+	use App\Form\ArticleSearchType;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+	use Symfony\Component\HttpFoundation\Request;
 	
 	class BlogController extends AbstractController
 	{
@@ -25,6 +27,7 @@
 		 */
 		public function index(): Response
 		{
+			
 			$articles = $this->getDoctrine()
 				->getRepository(Article::class)
 				->findAll();
@@ -35,10 +38,9 @@
 				);
 			}
 			
-			return $this->render(
-				'blog/index.html.twig',
-				['articles' => $articles]
-			);
+			return $this->render('blog/index.html.twig', [
+						'articles' => $articles,
+					]);
 		}
 		
 		/**

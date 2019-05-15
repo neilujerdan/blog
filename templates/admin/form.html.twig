@@ -5,7 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Bienvenue sur mon blog</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
     <a href="{{ path('blog_show', { 'slug': "javascript-vs-php" }) }}">
         Testing show() method from BlogController with a real article s slug.
     </a>
@@ -16,9 +20,5 @@
     <br/>
     <a href="{{ path('show_Category', { 'name': "javascript" }) }}">
         Testing showByCategory() method from BlogController with a real cagtegory.
-    </a>
-    <br/>
-    <a href="{{ path('category_add') }}">
-        Testing Add  category  method from BlogController with a real cagtegory.
     </a>
 {% endblock %}
