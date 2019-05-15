@@ -10,9 +10,13 @@
 	
 	use App\Entity\Article;
 	use App\Entity\Category;
+	use App\Entity\Tag;
+	use App\Form\CategoryType;
+	use App\Form\ArticleSearchType;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+	use Symfony\Component\HttpFoundation\Request;
 	
 	class BlogController extends AbstractController
 	{
@@ -24,6 +28,7 @@
 		 */
 		public function index(): Response
 		{
+			
 			$articles = $this->getDoctrine()
 				->getRepository(Article::class)
 				->findAll();
@@ -34,10 +39,9 @@
 				);
 			}
 			
-			return $this->render(
-				'blog/index.html.twig',
-				['articles' => $articles]
-			);
+			return $this->render('blog/index.html.twig', [
+						'articles' => $articles,
+					]);
 		}
 		
 		/**
@@ -93,10 +97,6 @@
 		 */
 		public function showByCategory(Category $category) : Response
 		{
-			if (!$category) {
-				throw $this
-					->createNotFoundException('No slug has been sent to find an article in article\'s table.');
-			}
 			/*
 			$category = $this->getDoctrine()
 				->getRepository(Category::class)
@@ -117,6 +117,27 @@
 				[
 					'category' => $category,
 					'articles' => $category->getArticles(),
+				]
+			);
+		}
+		
+		/**
+		 * Getting a article with a formatted slug for title
+		 *
+		 *
+		 * @Route("/blog/tag/{name}",
+		 *     defaults={"tag" = null},
+		 *     name="show_tag")
+		 *  @return Response A response instance
+		 */
+		public function showByTag(Tag $tag) : Response
+		{
+	
+			return $this->render(
+				'blog/tag.html.twig',
+				[
+					'tagName' => $tag->getName(),
+					'articles' => $tag->getArticles(),
 				]
 			);
 		}

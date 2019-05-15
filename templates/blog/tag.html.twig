@@ -5,17 +5,23 @@
 
 {% block body %}
 
-    <h1>All articles from : </h1>
+    <h1>All articles from : {{ tagName }} </h1>
     {% for article in articles %}
         <div>
-            <h2>{{ article.id }} / {{ article.title }} - Category : {{ article.category.name }}</h2>
+            <h2>{{ article.id }} /
+                <a href="{{ path('blog_show', { 'slug': article.title|replace({ ' ': '-' })|lower }) }}">
+                {{ article.title }}
+                </a>
+                    - Tag : {{ tagName }}</h2>
             <p>{{ article.content }}</p>
         </div>
+
+
+
     {% else %}
         Aucun article trouvé.
     {% endfor %}
     <a href="{{ path('homepage') }}">
         Back to homepage.
     </a>
-
 {% endblock %}
