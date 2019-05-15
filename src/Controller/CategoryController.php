@@ -26,15 +26,15 @@
 		 */
 		public function add(Request $request): Response
 		{
-			$entityManager = $this->getDoctrine()->getManager();
+			$categoryManager = $this->getDoctrine()->getManager();
 			
 			$category = new Category();
 			$form = $this->createForm(CategoryType::class, $category);
 			$form->handleRequest($request);
 			
 			if ($form->isSubmitted() && $form->isValid()) {
-				$entityManager->persist($category);
-				$entityManager->flush();
+				$categoryManager->persist($category);
+				$categoryManager->flush();
 			}
 			
 			return $this->render('admin/form.html.twig', [
