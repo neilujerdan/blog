@@ -26,13 +26,11 @@
 		 */
 		public function add(Request $request): Response
 		{
-			
 			$entityManager = $this->getDoctrine()->getManager();
 			
 			$category = new Category();
 			$form = $this->createForm(CategoryType::class, $category);
 			$form->handleRequest($request);
-			
 			
 			if ($form->isSubmitted() && $form->isValid()) {
 				$entityManager->persist($category);
