@@ -132,7 +132,7 @@
 		 */
 		public function showByTag(Tag $tag) : Response
 		{
-	
+			dump($tag->getName());
 			return $this->render(
 				'blog/tag.html.twig',
 				[
