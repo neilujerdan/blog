@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\service\Slugify;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
@@ -28,7 +29,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Slugify $slugify): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -36,13 +37,15 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+	        $slug = $slugify->generate($article->getTitle());
+	        $article->setSlug($slug);
             $entityManager->persist($article);
             $entityManager->flush();
 
             return $this->redirectToRoute('article_index');
         }
-
-        return $this->render('article/new.html.twig', [
+        
+	    return $this->render('article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
         ]);
@@ -61,12 +64,15 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, Article $article, Slugify $slugify): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+	        $slug = $slugify->generate($article->getTitle());
+	        $article->setSlug($slug);
+	        
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('article_index', [
