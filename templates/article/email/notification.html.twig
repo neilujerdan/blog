@@ -1,0 +1,10 @@
+{% extends 'layoutMail.html.twig' %}
+
+{% block body %}
+
+    <p>Hello, the article {{ articleTitle }} was register in your website !</p>
+    {{ url('article_show', {'id': articleId}) }}
+
+
+
+{% endblock %}

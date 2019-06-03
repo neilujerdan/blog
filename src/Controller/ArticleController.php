@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\service\Mailer;
 use App\service\Slugify;
 use App\Entity\Article;
 use App\Form\ArticleType;
@@ -29,7 +30,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Slugify $slugify): Response
+    public function new(Request $request, Slugify $slugify, Mailer $mailer): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -41,6 +42,7 @@ class ArticleController extends AbstractController
 	        $article->setSlug($slug);
             $entityManager->persist($article);
             $entityManager->flush();
+            $mailer->sendArticle($article->getTitle(), $article->getId());
 
             return $this->redirectToRoute('article_index');
         }
