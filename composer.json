@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "fzaninotto/faker": "^1.8",
         "sensio/framework-extra-bundle": "^5.1",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
@@ -17,6 +18,7 @@
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "*",
         "symfony/process": "4.2.*",
+        "symfony/profiler-pack": "^1.0",
         "symfony/requirements-checker": "^1.1",
         "symfony/security-bundle": "4.2.*",
         "symfony/serializer-pack": "*",
@@ -32,7 +34,6 @@
         "doctrine/doctrine-fixtures-bundle": "^3.1",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
-        "symfony/profiler-pack": "*",
         "symfony/test-pack": "*",
         "symfony/web-server-bundle": "4.2.*"
     },

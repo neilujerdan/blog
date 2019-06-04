@@ -23,7 +23,7 @@ class Mailer
     {
         $message = (new \Swift_Message('Hello'))
                 ->setFrom($_ENV['mail_from'])
-                ->setTo("john@doe.fr")
+                ->setTo($_ENV['mail_to'])
                 ->setBody(
                     $this->environment->render(
                         'article/email/notification.html.twig',
