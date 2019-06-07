@@ -7,6 +7,8 @@ use App\service\Slugify;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +48,8 @@ class ArticleController extends AbstractController
             $entityManager->flush();
             $mailer->sendArticle($article->getTitle(), $article->getId());
 
+            $this->addFlash('success', 'The new article has been created');
+
             return $this->redirectToRoute('article_index');
         }
         
@@ -67,10 +71,11 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
+     * @Security("user == article.getAuthor()")
      */
     public function edit(Request $request, Article $article, Slugify $slugify): Response
     {
-        $this->denyAccessUnlessGranted('EDIT',$article);
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -79,6 +84,8 @@ class ArticleController extends AbstractController
 	        $article->setSlug($slug);
 	        
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'The article has been edited');
 
             return $this->redirectToRoute('article_index', [
                 'id' => $article->getId(),
@@ -93,14 +100,15 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Article $article): Response
     {
-        $this->denyAccessUnlessGranted('DELETE', $article);
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+            $this->addFlash('danger', 'The article has been deleted');
         }
 
         return $this->redirectToRoute('article_index');

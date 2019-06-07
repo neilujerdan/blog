@@ -32,7 +32,7 @@
     </ul>
 
     <a href="{{ path('article_index') }}">back to list</a>
-    {% if is_granted('EDIT', article) %}
+    {% if is_granted('ROLE_ADMIN') or app.user == article.author %}
         <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
     {% endif %}
 

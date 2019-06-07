@@ -39,6 +39,7 @@
                     $article->addTag($this->getReference('tag_' . rand(0, 8)));
                 }
 				$article->setCategory($this->getReference('categorie_'. rand(0,4)));
+				$this->addReference('article_'. $i, $article);
 			}
 			$manager->flush();
 		}

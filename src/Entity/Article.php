@@ -32,7 +32,7 @@ class Article
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="ne me laisse pas tout vide")
      * @Assert\Regex(
-     *     pattern="\bdigital\b",
+     *     pattern="~\bdigital\b~",
      *     match=false,
      *     message="en français, il faut dire numérique"
      * )
