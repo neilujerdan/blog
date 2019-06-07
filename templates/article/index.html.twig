@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Content</th>
+                <th>Tags</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,13 @@
                 <td>{{ article.id }}</td>
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
+                <td>
+                    <ul>
+                    {% for tag in article.tags %}
+                            <li>{{ tag }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}">show</a>
                     {% if is_granted('EDIT', article) %}

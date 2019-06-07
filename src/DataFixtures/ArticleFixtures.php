@@ -27,13 +27,17 @@
 			// TODO: Implement load() method.
 			$slugify = new Slugify();
 			$faker  =  Faker\Factory::create('fr_FR');
-			for ($i = 1; $i <= 50; $i++) {
+			for ($i = 0; $i < 50; $i++) {
 				$article = new Article();
 				$article->setTitle(mb_strtolower($faker->sentence()));
 				$article->setContent(mb_strtolower($faker->text()));
 				$slug = $slugify->generate($article->getTitle());
 				$article->setSlug($slug);
 				$manager->persist($article);
+				$k = rand(0,4);
+				for ($j=0; $j<$k; $j++) {
+                    $article->addTag($this->getReference('tag_' . rand(0, 8)));
+                }
 				$article->setCategory($this->getReference('categorie_'. rand(0,4)));
 			}
 			$manager->flush();
