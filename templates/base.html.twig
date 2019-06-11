@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
+        <script src="https://kit.fontawesome.com/f62deca48c.js"></script>
+
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
@@ -22,7 +24,6 @@
     {% endfor %}
 {% endfor %}
 {% block body %}{% endblock %}
-
 {{ encore_entry_script_tags('app') }}
 {% block javascripts %}
 {% endblock %}
